@@ -1,0 +1,40 @@
+#!/bin/sh
+
+PATH="/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/bin:/usr/bin"
+
+ProjectPath="logpath"
+RestartLog=${ProjectPath}/log/restart.log
+
+cd ${ProjectPath}
+
+proc_name="bin/logdb"
+proc_num=`ps -ef|grep ${proc_name}|grep -v grep|grep -v "bin/loginf"|wc|awk '{printf $1}'`
+if [ "$proc_num" -lt procnum ]
+then
+    #write log
+    echo "Check Time Process Number : ${proc_num}" >> ${RestartLog}
+    echo "---------------ps result before restart----------------" >> ${RestartLog}
+    ps -ef|grep -v grep|grep ${proc_name} >> ${RestartLog}
+    echo $(date +"%Y%m%d %H:%M") "${proc_name} restart" >> ${RestartLog}
+    echo "" >> ${RestartLog}
+    #restart
+    ulimit -c unlimited
+    ./manage.sh restart
+fi
+
+proc_name="bin/loginf"
+proc_num=`ps -ef|grep ${proc_name}|grep -v grep|wc|awk '{printf $1}'`
+if [ "$proc_num" -lt 1 ]
+then
+    #write log
+    echo "Check Time Process Number : ${proc_num}" >> ${RestartLog}
+    echo "---------------ps result before restart----------------" >> ${RestartLog}
+    ps -ef|grep -v grep|grep ${proc_name} >> ${RestartLog}
+    echo $(date +"%Y%m%d %H:%M") "${proc_name} restart" >> ${RestartLog}
+    echo "" >> ${RestartLog}
+    #restart
+    ulimit -c unlimited
+    ./manage.sh shutdown
+    ./manage.sh deploy
+fi
+
