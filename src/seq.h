@@ -10,6 +10,7 @@
 int sequence_init(void);
 
 uint64_t sequence_get(void);
+void sequence_dec(void);
 
 void sequence_fini(void);
 

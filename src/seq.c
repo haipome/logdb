@@ -59,3 +59,12 @@ uint64_t sequence_get(void)
     return v;
 }
 
+void sequence_dec(void)
+{
+    if (*global_sequence)
+    {
+        --(*global_sequence);
+        msync((void *)global_sequence, sizeof(uint64_t), MS_ASYNC);
+    }
+}
+

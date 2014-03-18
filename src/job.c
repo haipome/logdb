@@ -34,6 +34,8 @@ static int insert_db_fail_count;
 static int exec_sql_succ_count;
 static int exec_sql_fail_count;
 
+static int global_sequence_has_generated;
+
 static int choice_worker(void)
 {
     static int last_worker = 0;
@@ -182,6 +184,7 @@ static void reciver_looper(void)
         } \
     } else if (curr->is_global_sequence) { \
         ut##_t v = (ut##_t)sequence_get(); \
+        global_sequence_has_generated = 1; \
         if (curr->is_storage) { \
             use += snprintf(str + use, sizeof(str) - use, "%"priu, v); \
         } \
@@ -581,10 +584,17 @@ static int handle_udp(struct sockaddr_in *client_addr, char *pkg, int len)
             real_client_addr.sin_port        = addr->port;
         }
 
+        global_sequence_has_generated = 0;
+
         uint64_t hash_key = 0;
         char *s = pkgtostr(&real_client_addr, p, left, &hash_key);
         if (s == NULL)
         {
+            if (global_sequence_has_generated)
+            {
+                sequence_dec();
+            }
+
             NEG_RET(reply(&head, client_addr, RESULT_PKG_FMT_ERROR));
 
             return -__LINE__;
