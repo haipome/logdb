@@ -270,7 +270,7 @@ static int shift_log(dlog_t *lp, struct timeval *now)
 
     int ret = 0;
 
-    if (fs.st_size >= lp->max_size)
+    if ((size_t)fs.st_size >= lp->max_size)
     {
         lp->last_shift = now->tv_sec;
 # ifdef DEBUG

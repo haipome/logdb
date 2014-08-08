@@ -211,6 +211,9 @@ static char *get_table_def(void)
     curr = settings.columns;
     while (curr)
     {
+        if (auto_realloc((void **)&buf, &buf_len, len + strlen(curr->name) + 256) == NULL)
+            return NULL;
+
         if (curr->is_index)
         {
             len += snprintf(buf + len, buf_len - len, ",\n        INDEX `index_%s` (`%s`)", \
@@ -239,7 +242,7 @@ char *get_table_def_by_table(char *table)
 
     char *start = strstr(create_table, "(");
     char *end   = strstr(create_table, ") ENGINE=");
-    if (strstr == NULL || end == NULL)
+    if (start == NULL || end == NULL)
     {
         free(create_table);
         return NULL;

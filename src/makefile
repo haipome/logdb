@@ -8,8 +8,8 @@ CFLAGS+= -Wall -Wextra -Wformat=2 -Wunused -Wno-unused-parameter -Wshadow \
 
 RM= rm -f
 
-INC_MYSQL= -I/usr/local/mysql/include
-LIB_MYSQL= -L/usr/local/mysql/lib/ -lmysqlclient -lz
+INC_MYSQL= -I/usr/include/mysql/
+LIB_MYSQL= -L/usr/lib/mysql/ -lmysqlclient -lz
 
 INC_ALL= $(INC_MYSQL)
 LIB_ALL= $(LIB_MYSQL) -lm
