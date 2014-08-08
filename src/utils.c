@@ -520,3 +520,14 @@ int get_shm(key_t key, size_t size, void **addr)
     return -1;
 }
 
+size_t buf_sum(void const *p, size_t n)
+{
+    size_t sum = 0;
+    for (i = 0; i < n; ++i)
+    {
+        sum += ((uint8_t *)p)[i];
+    }
+
+    return sum;
+}
+

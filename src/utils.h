@@ -51,6 +51,8 @@ ssize_t write_in_full(int fd, const void *buf, size_t count);
 char *raw_input(const char *msg);
 bool ask_is_continue(void);
 
+size_t buf_sum(void const *p, size_t n);
+
 # define NEG_RET_LN(x) do { \
     if ((x) < 0) { \
         return -__LINE__; \

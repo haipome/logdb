@@ -558,9 +558,9 @@ int read_settings(char const *config_file_path)
             return -__LINE__;
         }
 
-        if (settings.hash_table_column->type >= COLUMN_TYPE_CHAR)
+        if (settings.hash_table_column->type >= COLUMN_TYPE_BINARY)
         {
-            fprintf(stderr, "field 'hash table column' type must be integer\n");
+            fprintf(stderr, "field 'hash table column' type must be integer or string\n");
 
             return -__LINE__;
         }

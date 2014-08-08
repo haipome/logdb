@@ -257,6 +257,9 @@ static void reciver_looper(void)
         } \
     } \
     ((char *)buf)[vlen] = 0; \
+    if (settings.hash_table_column == curr) { \
+        *hash_key = buf_sum(buf, vlen); \
+    } \
     if (curr->is_storage) { \
         use += lstrncpy(str + use, "'", sizeof(str) - use); \
         use += db_escape_string(str + use, (char *)buf, vlen); \
