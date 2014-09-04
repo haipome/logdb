@@ -668,7 +668,7 @@ static int create_new_tables(void)
         if (create_sql == NULL)
             return -__LINE__;
 
-        log_debug("worker: %d, sql: %s", settings.worker_id, create_sql);
+        log_info("worker: %d, sql: %s", settings.worker_id, create_sql);
 
         int ret = db_query(create_sql, 0);
         if (ret < 0)

@@ -15,7 +15,7 @@
 # include "bhash.h"
 # include "timer.h"
 
-# define TIMER_CHECK_INTERVAL   1000
+# define TIMER_CHECK_INTERVAL   5000
 # define TIMER_TIME_OUT         1000
 
 static struct   list_head vec[TIMER_TIME_OUT];
