@@ -34,3 +34,9 @@ $(INTERFACE): $(INTERFACE_O)
 clean:
 	$(RM) *.o $(SERVER) $(INTERFACE)
 
+install:
+	mkdir -p ../bin ../log ../api
+	cp -f $(SERVER) $(INTERFACE) ../bin/
+	cp -f ../shell/manage.sh ../
+
+# vim: set noet: 
