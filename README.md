@@ -9,6 +9,7 @@ High performance, auto deployment, auto create db table and update table, auto s
 
 Usually deploy logdb in this strcture:
 
+```
 logdb_test
 |---bin
 |   |---logdb
@@ -20,6 +21,7 @@ logdb_test
 |---shell
 |   |---check_alive.sh.template
 |   |---load_fail_log.sh
+```
 
 Make sure only run on unit of logdb on one folder. If you have many unit of logdb on the same machine, use different folder.
 
