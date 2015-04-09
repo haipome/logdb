@@ -1,9 +1,9 @@
 logdb
 =====
 
-A logging system base on mysql, logging structured message on mysql.
+A logging system base on mysql, logging structured message.
 
-High performance, auto deployment, auto create db table and update table, auto switch table, atuo generate C API.
+High performance, self definition fields, auto deployment, auto create db table and update table, auto switch table, atuo generate C API.
 
 # Deployment
 
