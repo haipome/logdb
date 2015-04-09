@@ -23,5 +23,5 @@ logdb_test
 |   |---load_fail_log.sh
 ```
 
-Make sure only run on unit of logdb on one folder. If you have many unit of logdb on the same machine, use different folder.
+Make sure only run one unit of logdb on one folder. If you have many unit of logdb on the same machine, use different folder.
 
