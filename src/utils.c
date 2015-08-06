@@ -103,7 +103,6 @@ char *get_curr_date_time(void)
 
     time_t now = time(NULL);
     struct tm *tm = localtime(&now);
-
     snprintf(data_time, sizeof(data_time), "%04d-%02d-%02d %02d:%02d:%02d", \
             tm->tm_year + 1900, tm->tm_mon + 1, \
             tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
@@ -224,11 +223,16 @@ char *get_hour_str(int offset, time_t *timeptr)
     if (timeptr == NULL)
         now = time(NULL);
     else
+	{
         now = *timeptr;
+# ifdef __LP64__
+		/* in 64 bit environment, if time is too big or small, localtime may core */
+		now &= 0xffffffffffll;
+# endif
+	}
     now += offset * 3600;
 
     struct tm *tm = localtime(&now);
-
     snprintf(hour_str, sizeof(hour_str), "%04d%02d%02d%02d", \
             tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday, tm->tm_hour);
 
@@ -243,11 +247,15 @@ char *get_day_str(int offset, time_t *timeptr)
     if (timeptr == NULL)
         now = time(NULL);
     else
+	{
         now = *timeptr;
+# ifdef __LP64__
+		now &= 0xffffffffffll;
+# endif
+	}
     now += offset * 3600 * 24;
 
     struct tm *tm = localtime(&now);
-
     snprintf(day_str, sizeof(day_str), "%04d%02d%02d", \
             tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday);
 
@@ -262,7 +270,12 @@ char *get_mon_str(int offset, time_t *timeptr)
     if (timeptr == NULL)
         now = time(NULL);
     else
+	{
         now = *timeptr;
+# ifdef __LP64__
+		now &= 0xffffffffffll;
+# endif
+	}
 
     struct tm *tm = localtime(&now);
     tm->tm_mon  += offset;
@@ -289,7 +302,12 @@ char *get_year_str(int offset, time_t *timeptr)
     if (timeptr == NULL)
         now = time(NULL);
     else
+	{
         now = *timeptr;
+# ifdef __LP64__
+		now &= 0xffffffffffll;
+# endif
+	}
 
     struct tm *tm = localtime(&now);
     tm->tm_year += offset;
@@ -307,11 +325,15 @@ char *get_date_str(int offset, time_t *timeptr)
     if (timeptr == NULL)
         now = time(NULL);
     else
+	{
         now = *timeptr;
+# ifdef __LP64__
+		now &= 0xffffffffffll;
+# endif
+	}
     now += offset;
 
     struct tm *tm = localtime(&now);
-
     snprintf(date_str, sizeof(date_str), "%04d-%02d-%02d", \
             tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday);
 
@@ -326,11 +348,15 @@ char *get_time_str(int offset, time_t *timeptr)
     if (timeptr == NULL)
         now = time(NULL);
     else
+	{
         now = *timeptr;
+# ifdef __LP64__
+		now &= 0xffffffffffll;
+# endif
+	}
     now += offset;
 
     struct tm *tm = localtime(&now);
-
     snprintf(time_str, sizeof(time_str), "%02d:%02d:%02d", \
             tm->tm_hour, tm->tm_min, tm->tm_sec);
 
@@ -345,11 +371,15 @@ char *get_datetime_str(int offset, time_t *timeptr)
     if (timeptr == NULL)
         now = time(NULL);
     else
+	{
         now = *timeptr;
+# ifdef __LP64__
+		now &= 0xffffffffffll;
+# endif
+	}
     now += offset;
 
     struct tm *tm = localtime(&now);
-
     snprintf(datetime_str, sizeof(datetime_str), \
             "%04d-%02d-%02d %02d:%02d:%02d", \
             tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday, \
