@@ -5,6 +5,8 @@ A logging system base on mysql, logging structured message.
 
 High performance, self definition fields, auto deployment, auto create db table and update table, auto switch table, atuo generate C API.
 
+中文介绍：http://blog.haipo.me/?p=1176
+
 # Deployment
 
 Usually deploy logdb in this strcture:
