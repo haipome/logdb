@@ -1,15 +1,15 @@
 logdb
 =====
 
-A logging system base on mysql, logging structured message.
+A logging system based on mysql for logging structured messages.
 
-High performance, self definition fields, auto deployment, auto create db table and update table, auto switch table, atuo generate C API.
+High performance, self defined fields, auto deployment, auto creation and updates of table structure, auto table switching and auto generation of C API.
 
 中文介绍：http://blog.haipo.me/?p=1176
 
 # Deployment
 
-Usually deploy logdb in this strcture:
+Logdb is usually deployed in following directory structure:
 
 ```
 logdb_test
@@ -25,7 +25,7 @@ logdb_test
 |   |---load_fail_log.sh
 ```
 
-Make sure only run one unit of logdb on one folder. If you have many unit of logdb on the same machine, use different folder.
+Make sure to run only one instance of logdb from one directory. If you need more instances of logdb on the same machine, use different directories.
 
 Installation
 -------
@@ -38,4 +38,4 @@ Installation
 
 Compilation
 -----------
-Before `make`, you should make sure the `libmysqlclient` installed.
+Before `make`, please make sure `libmysqlclient` is installed.
