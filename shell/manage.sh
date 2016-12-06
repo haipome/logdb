@@ -3,6 +3,13 @@
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 SERVER_NAME=""
 
+function usleep()
+{
+    second=`echo $1 | python -c "import sys;print int(sys.stdin.read()) / 1000000.0"`
+    sleep $second
+}
+
+
 function ini_read()
 (
     typeset INI_FILE=$1;
