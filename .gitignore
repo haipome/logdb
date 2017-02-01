@@ -18,13 +18,12 @@
 *.app
 
 # log
-log/
 
 # bin
-bin/
 src/logdb
 src/loginf
 
 # copy of shell script
 manage.sh
 
+tags
