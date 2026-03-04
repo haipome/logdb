@@ -5,7 +5,7 @@ SERVER_NAME=""
 
 function usleep()
 {
-    second=`echo $1 | python -c "import sys;print int(sys.stdin.read()) / 1000000.0"`
+    second=`echo $1 | awk '{printf "%.6f", $1 / 1000000.0}'`
     sleep $second
 }
 
@@ -58,12 +58,12 @@ function service_start()
 
 function service_syncdb()
 {
-    ./bin/logdb -c conf/default.ini --syncdb
+    ./bin/logdb_${SERVER_NAME} -c conf/default.ini --syncdb
 }
 
 function generate_api()
 {
-    ./bin/logdb -c conf/default.ini --api
+    ./bin/logdb_${SERVER_NAME} -c conf/default.ini --api
 }
 
 function install_crontab()
@@ -136,10 +136,10 @@ function service_deploy()
     proc_num=$((${proc_num} + 1))
     project_path=`pwd`
     cat shell/check_alive.sh.template \
-        | sed "s;\<logdb\>;logdb_${SERVER_NAME};g" \
-        | sed "s;\<loginf\>;logdb_${SERVER_NAME}_inf;g" \
-        | sed "s;\<procnum\>;${proc_num};g" \
-        | sed "s;\<logpath\>;${project_path};g" > \
+        | sed "s;logdb;logdb_${SERVER_NAME};g" \
+        | sed "s;loginf;logdb_${SERVER_NAME}_inf;g" \
+        | sed "s;procnum;${proc_num};g" \
+        | sed "s;logpath;${project_path};g" > \
             shell/logdb_${SERVER_NAME}_check_alive.sh
 
     chmod a+x shell/*

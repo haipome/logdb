@@ -35,7 +35,7 @@ clean:
 	$(RM) *.o $(SERVER) $(INTERFACE)
 
 install:
-	mkdir -p ../bin ../log ../api
+	mkdir -p ../bin ../log ../api ../binlog
 	cp -f $(SERVER) $(INTERFACE) ../bin/
 	cp -f ../shell/manage.sh ../
 
