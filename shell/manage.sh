@@ -18,7 +18,7 @@ function ini_read()
 
     if [ ! -f "${INI_FILE}" ]
     then
-        echo "Config file [$INI_FILE] is not exists." >&2
+        echo "Config file [$INI_FILE] does not exist." >&2
         exit 1
     fi
     

@@ -1,5 +1,5 @@
 /*
- * Description: a log lib with cache, writen by damon
+ * Description: a log lib with cache, written by damon
  *     History: damonyang@tencent.com, 2013/05/20, created
  */
 

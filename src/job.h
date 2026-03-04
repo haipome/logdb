@@ -5,7 +5,7 @@
 
 # pragma once
 
-int do_reciver_job(void);
+int do_receiver_job(void);
 
 int do_worker_job(void);
 

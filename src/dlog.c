@@ -1,5 +1,5 @@
 /*
- * Description: a log lib with cache, writen by damon
+ * Description: a log lib with cache, written by damon
  *     History: damonyang@tencent.com, 2013/05/20, created
  */
 
@@ -29,7 +29,7 @@
 dlog_t *default_dlog = NULL;
 int     default_dlog_flag = 0;
 
-# define WRITE_INTERVAL_IN_USEC (10 * 1000)     /* 100 ms */
+# define WRITE_INTERVAL_IN_USEC (10 * 1000)     /* 10 ms */
 # define WRITE_BUFFER_CHECK_LEN (32 * 1024)     /* 32 KB */
 # define WRITE_BUFFER_LEN       (64 * 1024)     /* 64 KB */
 
@@ -344,14 +344,14 @@ static int flush_log(dlog_t *lp, struct timeval *now)
 
     if (lp->remote_log)
     {
-        /* lasz init, because dlog_init may call befor daemon */
+        /* lazy init, because dlog_init may call before daemon */
         if (lp->sockfd == 0)
         {
             int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
             if (sockfd < 0)
             {
                 ret_val = -1;
-                goto end_lable;
+                goto end_label;
             }
             lp->sockfd = sockfd;
         }
@@ -362,7 +362,7 @@ static int flush_log(dlog_t *lp, struct timeval *now)
             if (errno == EBADF)
                 lp->sockfd = 0;
             ret_val = -1;
-            goto end_lable;
+            goto end_label;
         }
     }
     else
@@ -375,18 +375,18 @@ static int flush_log(dlog_t *lp, struct timeval *now)
         if (fd < 0)
         {
             ret_val = -1;
-            goto end_lable;
+            goto end_label;
         }
         n = write_in_full(fd, lp->buf, lp->w_len);
         close(fd);
         if (n < 0)
         {
             ret_val = -1;
-            goto end_lable;
+            goto end_label;
         }
     }
 
-end_lable:
+end_label:
     lp->w_len = 0;
 # ifdef DEBUG
     ++write_times;
@@ -603,7 +603,7 @@ static int _dlog(dlog_t *lp, const char *fmt, va_list ap)
 
     struct timeval now;
     gettimeofday(&now, NULL);
-    char *timestmap = timeval_str(&now);
+    char *timestamp = timeval_str(&now);
 
     ssize_t n  = 0;
     ssize_t ret;
@@ -611,7 +611,7 @@ static int _dlog(dlog_t *lp, const char *fmt, va_list ap)
     char *p = lp->buf + lp->w_len;
     size_t len = lp->buf_len - lp->w_len;
 
-    ret = snprintf(p, len, "[%s] ", timestmap);
+    ret = snprintf(p, len, "[%s] ", timestamp);
     if (ret < 0)
         return -1;
 
@@ -644,7 +644,7 @@ static int _dlog(dlog_t *lp, const char *fmt, va_list ap)
             if (fp == NULL)
                 return -2;
 
-            fprintf(fp, "[%s] ", timestmap);
+            fprintf(fp, "[%s] ", timestamp);
             vfprintf(fp, fmt, ap);
             fprintf(fp, "\n");
 

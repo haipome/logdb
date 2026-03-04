@@ -8,7 +8,7 @@ function ini_read()
 
     if [ ! -f "${INI_FILE}" ]
     then
-        echo "Config file [$INI_FILE] is not exists." >&2
+        echo "Config file [$INI_FILE] does not exist." >&2
         exit 1
     fi
     
@@ -43,7 +43,7 @@ function ini_read_default()
 
 if [ $# -ne 1 ]
 then
-    echo "Usage $0 fail.log"
+    echo "Usage: $0 fail.log"
     exit 1
 fi
 

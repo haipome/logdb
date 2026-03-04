@@ -44,14 +44,14 @@ struct settings
 
     bool                is_return_pkg;
 
-    struct sockaddr_in  reciver_addr;
+    struct sockaddr_in  receiver_addr;
 };
 
 struct settings settings;
 
 int  shut_down_flag;
 char config_file_path[PATH_MAX];
-int  recive_reply_flag;
+int  receive_reply_flag;
 
 # define PACKAGE_STRING "loginf"
 # define VERSION_STRING "1.3"
@@ -150,14 +150,14 @@ static int read_settings(void)
 
     ini_free(conf);
 
-    bzero(&settings.reciver_addr, sizeof(settings.reciver_addr));
-    settings.reciver_addr.sin_family = AF_INET;
-    settings.reciver_addr.sin_port = htons(settings.listen_port + 1);
+    bzero(&settings.receiver_addr, sizeof(settings.receiver_addr));
+    settings.receiver_addr.sin_family = AF_INET;
+    settings.receiver_addr.sin_port = htons(settings.listen_port + 1);
 
-    const char *reciver_ip = settings.local_ip;
-    if (reciver_ip == NULL)
-        reciver_ip = "127.0.0.1";
-    if (inet_aton(reciver_ip, &settings.reciver_addr.sin_addr) == 0)
+    const char *receiver_ip = settings.local_ip;
+    if (receiver_ip == NULL)
+        receiver_ip = "127.0.0.1";
+    if (inet_aton(receiver_ip, &settings.receiver_addr.sin_addr) == 0)
         return -__LINE__;
 
     return 0;
@@ -209,10 +209,10 @@ static void handle_time_out(uint32_t sequence, size_t size, void *data)
         log_error("queue_push fail: %d\n", ret);
     }
 
-    recive_reply_flag = false;
+    receive_reply_flag = false;
 }
 
-static int send_to_reciver(struct sockaddr_in *client_addr, \
+static int send_to_receiver(struct sockaddr_in *client_addr, \
         uint8_t command, uint32_t sequence, void *body, int body_len)
 {
     struct protocol_head head;
@@ -233,7 +233,7 @@ static int send_to_reciver(struct sockaddr_in *client_addr, \
     NEG_RET_LN(add_head(&head, &p, &left));
     NEG_RET_LN(add_bin(&p, &left, body, body_len));
 
-    NEG_RET_LN(send_udp_pkg(buf, sizeof(buf) - left, &settings.reciver_addr));
+    NEG_RET_LN(send_udp_pkg(buf, sizeof(buf) - left, &settings.receiver_addr));
 
     return 0;
 }
@@ -273,9 +273,9 @@ static int handle_udp(struct sockaddr_in *client_addr, void *pkg, int len)
 
     NEG_RET_LN(get_head(&head, &p, &left));
 
-    if (left == 0) /* logdb reciver return */
+    if (left == 0) /* logdb receiver return */
     {
-        recive_reply_flag = true;
+        receive_reply_flag = true;
 
         if (settings.is_return_pkg == true)
         {
@@ -325,10 +325,10 @@ static int handle_udp(struct sockaddr_in *client_addr, void *pkg, int len)
             memcpy(data + sizeof(*client_addr), pkg, len);
         }
 
-        ret = send_to_reciver(client_addr, head.command, sequence, p, left);
+        ret = send_to_receiver(client_addr, head.command, sequence, p, left);
         if (ret < 0)
         {
-            log_error("send to reciver fail: %d", ret);
+            log_error("send to receiver fail: %d", ret);
         }
     }
 
@@ -375,7 +375,7 @@ static void main_loop(void)
         uint32_t qlen = 0;
         static uint32_t seq;
 
-        if (recive_reply_flag == true && (seq++ % 3) == 0)
+        if (receive_reply_flag == true && (seq++ % 3) == 0)
         {
             ret = pkg_pop(&client_addr, &qpkg, &qlen);
             if (ret < -1)
@@ -401,7 +401,7 @@ static void main_loop(void)
             if (errno)
                 log_error("recv udp pkg error: %d: %m", ret);
             else
-                log_error("resv dup pkg error: %d", ret);
+                log_error("recv udp pkg error: %d", ret);
         }
 
         if (ret < 0)
@@ -449,7 +449,7 @@ int main(int argc, char *argv[])
     ret = is_server_exist(server_name);
     if (ret != 0)
     {
-        error(EXIT_FAILURE, 0, "server %s may has been exists", settings.server_name);
+        error(EXIT_FAILURE, 0, "server %s may already exist", settings.server_name);
     }
 
     /* test udp */

@@ -103,7 +103,7 @@ static int flush_table(struct table *table)
     return 0;
 }
 
-static void reciver_looper(void)
+static void receiver_looper(void)
 {
     if (shut_down_flag)
     {
@@ -113,7 +113,7 @@ static void reciver_looper(void)
             flush_table(&settings.tables[i]);
         }
 
-        log_vip("reciver, shut down...");
+        log_vip("receiver, shut down...");
 
         exit(0);
     }
@@ -129,7 +129,7 @@ static void reciver_looper(void)
     {
         if (last_log_min != 0)
         {
-            log_info("reciver: recv pkg: %d, succ: %d, fail: %d", \
+            log_info("receiver: recv pkg: %d, succ: %d, fail: %d", \
                     recv_pkg_count, process_pkg_succ_count, process_pkg_fail_count);
 
             recv_pkg_count = 0;
@@ -251,7 +251,7 @@ static void reciver_looper(void)
             vlen = strlen((char *)buf); \
         } \
         if (vlen > curr->length) { \
-            log_error("column: %s, length %zu is greate than max length: %u", \
+            log_error("column: %s, length %zu is greater than max length: %u", \
                     curr->name, vlen, curr->length); \
             vlen = curr->length; \
         } \
@@ -286,7 +286,7 @@ static void reciver_looper(void)
             vlen = ret; \
         } \
         if (vlen > curr->length) { \
-            log_error("colunm: %s, length %zu is greate than max length: %u", \
+            log_error("column: %s, length %zu is greater than max length: %u", \
                     curr->name, vlen, curr->length); \
             vlen = curr->length; \
         } \
@@ -427,7 +427,7 @@ static char *pkgtostr(struct sockaddr_in *client_addr, char *pkg, int len, uint6
 
             break;
         default:
-            log_fatal("unknow column type: %d", curr->type);
+            log_fatal("unknown column type: %d", curr->type);
 
             break;
         }
@@ -618,11 +618,11 @@ static int handle_udp(struct sockaddr_in *client_addr, char *pkg, int len)
     return 0;
 }
 
-int do_reciver_job(void)
+int do_receiver_job(void)
 {
     while (true)
     {
-        reciver_looper();
+        receiver_looper();
 
         char pkg[UINT16_MAX];
         int  len = 0;
@@ -637,7 +637,7 @@ int do_reciver_job(void)
             if (errno)
                 log_error("recv udp pkg error: %d: %m", ret);
             else
-                log_error("resv dup pkg error: %d", ret);
+                log_error("recv udp pkg error: %d", ret);
         }
 
         if (ret < 0)
@@ -783,7 +783,7 @@ static void check_shift(time_t tv_sec)
         curr = tm->tm_year;
         break;
     default:
-        log_fatal("unknow shift type: %d", settings.shift_table_type);
+        log_fatal("unknown shift type: %d", settings.shift_table_type);
         break;
     }
 

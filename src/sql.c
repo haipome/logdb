@@ -71,7 +71,7 @@ char *get_table_name(int table_id, int offset)
         time_str = NULL;
         break;
     default:
-        log_fatal("unknow db table shift type: %d", settings.shift_table_type);
+        log_fatal("unknown db table shift type: %d", settings.shift_table_type);
 
         return NULL;
     }

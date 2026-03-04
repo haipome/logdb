@@ -110,7 +110,7 @@ static void get_options(int argc, char *argv[])
         case 'f':
             offset_time = atoi(optarg);
             if (offset_time > 0)
-                error(EXIT_FAILURE, errno, "offset_time shoule be a negative value");
+                error(EXIT_FAILURE, errno, "offset_time should be a negative value");
 
             break;
         case 'a':
@@ -470,7 +470,7 @@ static int init_worker_queue(int i)
             settings.queue_mem_cache_size, bin_file, settings.queue_bin_file_max_size);
     if (ret < 0)
     {
-        fprintf(stderr, "init worker %d queue fail: %d, shm key may has been used!\n", i, ret);
+        fprintf(stderr, "init worker %d queue fail: %d, shm key may have been used!\n", i, ret);
 
         return -__LINE__;
     }
@@ -727,7 +727,7 @@ int main(int argc, char *argv[])
     ret = is_server_exist(server_name);
     if (ret != 0)
     {
-        error(EXIT_FAILURE, 0, "server %s may has been exists", settings.server_name);
+        error(EXIT_FAILURE, 0, "server %s may already exist", settings.server_name);
     }
 
     /* test db */
@@ -786,9 +786,9 @@ int main(int argc, char *argv[])
     if (settings.worker_id == 0)
     {
         printf("%s start[%d]\n", basepath(argv[0]), getpid());
-        log_vip("reciver start[%d]", getpid());
+        log_vip("receiver start[%d]", getpid());
 
-        do_reciver_job();
+        do_receiver_job();
     }
     else
     {

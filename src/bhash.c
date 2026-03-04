@@ -235,9 +235,9 @@ int bhash_del(bhash_t *hash, const void *unit)
     return -1;
 }
 
-size_t bhash_traval(bhash_t *hash, traval_fun_t *traval, void *arg)
+size_t bhash_traverse(bhash_t *hash, traverse_fun_t *traverse, void *arg)
 {
-    if (!hash || !traval)
+    if (!hash || !traverse)
         return -10;
 
     size_t success_num = 0;
@@ -249,7 +249,7 @@ size_t bhash_traval(bhash_t *hash, traval_fun_t *traval, void *arg)
 
         if (hash->compare(node, hash->zero) != 0)
         {
-            if (traval(hash, node, arg) == 0)
+            if (traverse(hash, node, arg) == 0)
                 ++success_num;
         }
     }
@@ -267,6 +267,6 @@ size_t bhash_use(bhash_t *hash)
     if (!hash)
         return 0;
 
-    return bhash_traval(hash, empty, NULL);
+    return bhash_traverse(hash, empty, NULL);
 }
 

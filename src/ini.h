@@ -27,7 +27,7 @@ typedef struct ini_section ini_t;
 
 /*
  * Feature:
- * 1: If a property name declared befor any section is declared, it
+ * 1: If a property name declared before any section is declared, it
  *    is in a "global" section. If the ini_read_* function argument
  *    section is empty string or NULL, they will find the property
  *    name in the "global" section.
@@ -38,8 +38,8 @@ typedef struct ini_section ini_t;
  *
  * 3: There is no special limit on the name of section and property.
  *    Note that the surround whitespace of the name of section and
- *    property and value is ignored, but they can contian whitespace.
- *    Note that the name of section and property are case insensitivity.
+ *    property and value is ignored, but they can contain whitespace.
+ *    Note that the name of section and property are case insensitive.
  *
  * 4: Blank line is ignored.
  *
@@ -47,8 +47,8 @@ typedef struct ini_section ini_t;
  *    provide comments.
  *
  * 6: The second occurrence of a property name in the same section
- *    overwrite the previous one. The section occurrence of a section
- *    is joined whih the previous one.
+ *    overwrite the previous one. The second occurrence of a section
+ *    is joined with the previous one.
  *
  * 7: If a line end with '\', where a backslash followed immediately
  *    by EOL (end-of-line) causes the line break to be ignored, and

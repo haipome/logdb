@@ -22,7 +22,7 @@ typedef struct
  *      name         : to identification queue
  *      shm_key      : if not 0 use share memory, else use malloc
  *      mem_size     : size of memory cache
- *      reserve_file : if not NULL, write data wo file when memory is full
+ *      reserve_file : if not NULL, write data to file when memory is full
  *      file_max_size: the max size of reserve file
  * return:
  *      <  0: error

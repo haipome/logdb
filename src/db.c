@@ -40,7 +40,7 @@ int db_connect(void)
     if (mysql_options(mysql_conn, MYSQL_OPT_RECONNECT, &reconnect) != 0)
         return -__LINE__;
 
-    /* set charst is important for: mysql_real_escape_string
+    /* set charset is important for: mysql_real_escape_string
      * also can use mysql_set_character_set on mysql 5.0.7 or higher */
     if (mysql_options(mysql_conn, MYSQL_SET_CHARSET_NAME, settings.db_charset) != 0)
         return -__LINE__;
@@ -116,7 +116,7 @@ int db_escape_string(char *to, const char *from, size_t len)
         /*
          * Mysql utf8 only support one to three bytes per character.
          * That is no more than 0xffff in unicode.
-         * To support four bytes utf8 character, you need use uft8mb4
+         * To support four bytes utf8 character, you need use utf8mb4
          * charater set and newer Mysql version.
          *
          * http://dev.mysql.com/doc/refman/5.7/en/charset-unicode-sets.html
@@ -290,7 +290,7 @@ int db_desc_table(char *table, int *num, struct column **columns)
     return 0;
 }
 
-int db_show_create_table(char *table, char **create_tabel)
+int db_show_create_table(char *table, char **create_table)
 {
     char sql[30 + strlen(table)];
     sprintf(sql, "SHOW CREATE TABLE `%s`", table);
@@ -311,7 +311,7 @@ int db_show_create_table(char *table, char **create_tabel)
     }
 
     MYSQL_ROW row = mysql_fetch_row(result);
-    *create_tabel = strdup(row[1]);
+    *create_table = strdup(row[1]);
 
     mysql_free_result(result);
 

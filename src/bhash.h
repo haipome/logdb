@@ -11,7 +11,7 @@
 # include <time.h>
 # include <sys/types.h>
 
-/* 比较函数，相等返回 0, 不想等返回非 0 值 */
+/* 比较函数，相等返回 0, 不相等返回非 0 值 */
 typedef int compare_fun_t(const void *a, const void *b);
 
 /* 返回单元的 32 位无符号整数 hash Key */
@@ -96,14 +96,14 @@ int bhash_del(bhash_t *hash, const void *unit);
  * 遍历函数，unit 为数据单元，arg 为用户自定义参数
  * 返回 0 表示成功
  */
-typedef int traval_fun_t(bhash_t *hash, void *unit, void *arg);
+typedef int traverse_fun_t(bhash_t *hash, void *unit, void *arg);
 
 /*
  * 遍历 hash 中所有非空节点
- * arg 会传给 traval 函数，可以为 NULL
- * 返回 traval 返回成功的数量
+ * arg 会传给 traverse 函数，可以为 NULL
+ * 返回 traverse 返回成功的数量
  */
-size_t bhash_traval(bhash_t *hash, traval_fun_t *traval, void *arg);
+size_t bhash_traverse(bhash_t *hash, traverse_fun_t *traverse, void *arg);
 
 /* 返回 hash 中单元的使用数 */
 size_t bhash_use(bhash_t *hash);

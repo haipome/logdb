@@ -246,7 +246,7 @@ static int read_columns(ini_t *conf)
             {
                 if (curr_column->length > UINT8_MAX)
                 {
-                    fprintf(stderr, "column: %s length: %u shoule be less than: %u\n", \
+                    fprintf(stderr, "column: %s length: %u should be less than: %u\n", \
                             curr_column->name, curr_column->length, UINT8_MAX);
                     return -__LINE__;
                 }
@@ -255,7 +255,7 @@ static int read_columns(ini_t *conf)
             {
                 if (curr_column->length > UINT16_MAX)
                 {
-                    fprintf(stderr, "column: %s length: %u shoule be less than: %u\n", \
+                    fprintf(stderr, "column: %s length: %u should be less than: %u\n", \
                             curr_column->name, curr_column->length, UINT16_MAX);
                     return -__LINE__;
                 }
