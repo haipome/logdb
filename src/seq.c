@@ -32,7 +32,10 @@ int sequence_init(void)
 
     struct stat st;
     if (fstat(fd, &st) < 0)
+    {
+        close(fd);
         return -__LINE__;
+    }
 
     if (st.st_size == 0)
     {
@@ -42,7 +45,10 @@ int sequence_init(void)
 
     void *addr = mmap(NULL, sizeof(uint64_t), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
     if (addr == MAP_FAILED)
+    {
+        close(fd);
         return -__LINE__;
+    }
 
     close(fd);
 
@@ -53,7 +59,7 @@ int sequence_init(void)
 
 uint64_t sequence_get(void)
 {
-    uint64_t v = ++(*global_sequence);
+    uint64_t v = __sync_add_and_fetch(global_sequence, 1);
     msync((void *)global_sequence, sizeof(uint64_t), MS_ASYNC);
 
     return v;
@@ -63,7 +69,7 @@ void sequence_dec(void)
 {
     if (*global_sequence)
     {
-        --(*global_sequence);
+        __sync_sub_and_fetch(global_sequence, 1);
         msync((void *)global_sequence, sizeof(uint64_t), MS_ASYNC);
     }
 }

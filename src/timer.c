@@ -159,7 +159,7 @@ int timer_check(struct timeval *now)
         return 0;
 
     int count = 0;
-    while (time_pos <= time_curr)
+    while (time_pos < time_curr)
     {
         time_pos++;
 

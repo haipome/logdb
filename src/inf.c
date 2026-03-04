@@ -444,7 +444,10 @@ int main(int argc, char *argv[])
     snprintf(server_name, sizeof(server_name), "logdb_%s_inf", settings.server_name);
 
     char path[PATH_MAX] = { 0 };
-    chdir(parentpath(realpath(argv[0], path)));
+    char *rpath = realpath(argv[0], path);
+    if (rpath == NULL)
+        error(EXIT_FAILURE, errno, "realpath fail for %s", argv[0]);
+    chdir(parentpath(rpath));
 
     ret = is_server_exist(server_name);
     if (ret != 0)

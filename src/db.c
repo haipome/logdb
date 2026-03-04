@@ -33,7 +33,6 @@ int db_connect(void)
     mysql_conn = mysql_init(NULL);
     if (mysql_conn == NULL)
         return -__LINE__;
-    connect_flag = true;
 
     /* set mysql auto reconnect */
     my_bool reconnect = 1;
@@ -50,6 +49,8 @@ int db_connect(void)
     {
         return -__LINE__;
     }
+
+    connect_flag = true;
 
     return 0;
 }

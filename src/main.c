@@ -710,7 +710,10 @@ int main(int argc, char *argv[])
     }
 
     char path[PATH_MAX] = { 0 };
-    chdir(parentpath(realpath(argv[0], path)));
+    char *rpath = realpath(argv[0], path);
+    if (rpath == NULL)
+        error(EXIT_FAILURE, errno, "realpath fail for %s", argv[0]);
+    chdir(parentpath(rpath));
 
     handle_options();
 

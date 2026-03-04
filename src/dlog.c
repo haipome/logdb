@@ -590,7 +590,7 @@ static char *timeval_str(struct timeval *tv)
 
     struct tm *t = localtime(&tv->tv_sec);
     snprintf(str, sizeof(str), "%04d-%02d-%02d %02d:%02d:%02d.%.6d",
-            t->tm_year + 1990, t->tm_mon + 1, t->tm_mday, t->tm_hour,
+            t->tm_year + 1900, t->tm_mon + 1, t->tm_mday, t->tm_hour,
             t->tm_min, t->tm_sec, (int)tv->tv_usec);
 
     return str;
@@ -746,7 +746,8 @@ int dlog_fini(dlog_t *lp)
             }
         }
 
-        return -1; /* not found */
+        if (_lp == NULL)
+            return -1; /* not found */
     }
 
     struct timeval now;

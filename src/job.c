@@ -310,7 +310,7 @@ static void receiver_looper(void)
         time_t t = (time_t)bt; \
         v = fun(0, &t); \
     } else { \
-        FAIL_LOG(get_str1(&p, &left, (char **)&buf, &buf_len)); \
+        FAIL_LOG(ret = get_str1(&p, &left, (char **)&buf, &buf_len)); \
         if (ret < 0) { \
             v = "0"; \
         } else { \
@@ -444,7 +444,7 @@ static char *pkgtostr(struct sockaddr_in *client_addr, char *pkg, int len, uint6
 
 static int choice_table(uint64_t hash_key)
 {
-    return abs(hash_key % settings.hash_table_num);
+    return (int)(hash_key % settings.hash_table_num);
 }
 
 static int process_one_record(char *s, uint64_t hash_key)
@@ -538,9 +538,10 @@ static int reply(struct protocol_head *head, struct sockaddr_in *addr, uint8_t r
 
     head->result = result;
 
-    char buf[head->echo_len + 10];
+    size_t reply_len = (head->echo_len <= UINT16_MAX) ? head->echo_len + 10 : UINT16_MAX;
+    char buf[reply_len];
     char *p = buf;
-    int left = head->echo_len + 10;
+    int left = reply_len;
 
     NEG_RET_LN(add_head(head, (void **)&p, &left));
     NEG_RET_LN(send_udp_pkg(buf, p - buf, addr));
@@ -579,6 +580,7 @@ static int handle_udp(struct sockaddr_in *client_addr, char *pkg, int len)
     else
     {
         struct sockaddr_in real_client_addr;
+        memcpy(&real_client_addr, client_addr, sizeof(real_client_addr));
         if (head.echo_len == sizeof(struct inner_addr))
         {
             struct inner_addr *addr = (struct inner_addr *)head.echo;
